@@ -1,0 +1,97 @@
+using System;
+
+namespace Lab3
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            //Первое и второе входящие предложения
+            string firstSentence, secondSentence;
+            //Простой ввод
+            Console.WriteLine("Введите первое предложение");
+            firstSentence = Console.ReadLine();
+            Console.WriteLine("Введите второе предложение");
+            secondSentence = Console.ReadLine();
+            //Раздление первого предложения на слова через функцию
+            string[] firstWords = Separator(firstSentence);
+            //Создать массив слов без повторов длинной кол-ва слов в первом предложении
+            string[] fwWithoutRepeat = new string[firstWords.Length];
+            //Счечик для слов без повтора
+            int k = 0;
+            //Слово повторяется?
+            bool isRepeat = false;
+            //Цикл на сортировке пузырьком
+            //Выбор первого слова для сравнения 
+            string[] repeat = new string[firstWords.Length];
+            for (int i = 0; i < firstWords.Length; i++)
+            {
+                //При каждом движении по словам из первого предложения
+                //сбрасываем повтор
+                isRepeat = false;
+                //Выбор второго слова для сравнения
+                for (int j = i + 1; j < firstWords.Length; j++)
+                {
+                    //Если первое слово равно второму
+                    if (firstWords[i].Equals(firstWords[j]))
+                    {
+                        //говорим, что слово повторяется
+                        isRepeat = true;
+                        //выходим из цикла
+                        break;
+                    }
+                }
+                //если повторяется, переходим к следующему шагу
+                if (isRepeat)
+                {
+                    continue;
+                }
+                //иначе записываем слово в массив без повторов
+                fwWithoutRepeat[k] = firstWords[i];
+                //увеличили счетчик
+                k++;
+            }
+            //кол-во повторяющихся слов
+            int ans = 0;
+            //слова из второго предложения
+            string[] secondWords = Separator(secondSentence);
+            //цикл для слов без повтора
+            for (int i = 0; i < k; i++)
+            {
+                //Цикл для слов из второго предложения
+                for (int j = 0; j < secondWords.Length; j++)
+                {
+                    //Если слова из первого предложения равны второму 
+                    if (fwWithoutRepeat[i].Equals(secondWords[j]))
+                    {
+                        repeat[ans] = fwWithoutRepeat[i];
+                        //Увеличить счетчик
+                        ans++;
+                    }
+                }
+            }
+            //Вывести
+            Console.WriteLine(ans + " повторяющихся слова");
+            for (int i = 0; i < ans; i++)
+            {
+                Console.Write(repeat[i] + " ");
+            }
+            //Это нужно, чтобы консоль не закрылась
+            Console.ReadKey();
+        }
+        //Функция для разделения строк на слова
+        static string[] Separator(string sentence)
+        {
+            //Разделить предложение по символам, которые указаны в массиве
+            string[] words = sentence.Split(new char[] { ' ', ',',
+            '.', '!', '?', ':', ':', '\'', '\"'});
+            for (int i = 0; i < words.Length; i++)
+            {
+                //для каждого слова заменить пробел на пустоту и сделать регистр маленьким
+                words[i] = words[i].Replace(' ', '\0').ToLower();
+            }
+            //вернуть массив слов
+            return words;
+        }
+    }
+}
