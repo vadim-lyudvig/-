@@ -1,0 +1,62 @@
+using System;
+using System.Collections.Generic;
+namespace ConsoleApp3
+{
+    class Program
+    {
+        static public void Delete(List<string> str) 
+        {
+            int count = 0;
+            for (int i = 0; i < str.Count; i++)
+                for (int j = i + 1; j < str.Count; j++)
+                    if (str[i] == str[j])
+                    {
+                        str.RemoveAt(j);
+                    }
+        }
+        static public string ToDown(string str)
+        {
+            char[] temp = str.ToCharArray();
+            for(int i =0; i<temp.Length;i++)
+            {
+              if(temp[i]>='A' && temp[i]<='Z') 
+                {
+                    temp[i] += ' ';
+                }
+                if(temp[i]>='А' && temp[i]<='Я') 
+                {
+                    temp[i] += ' ';
+                }
+            }
+            str = new string(temp);
+            return str;
+        }
+        static void Main(string[] args)
+
+        {
+            string str1, str2;
+            Console.WriteLine("Введите первое предложение");
+            str1 = Console.ReadLine();
+            Console.WriteLine("Введите второе предложение");
+            str2 = Console.ReadLine();
+            str1 = ToDown(str1);
+            str2 = ToDown(str2);
+            string[] str = str1.Split(' ', StringSplitOptions.RemoveEmptyEntries);
+            var temp = new List<string>(str);
+            Delete(temp);
+            int count = 0;
+            for(int i = 0; i < temp.Count; i++)
+            {
+                if (str2.Contains(temp[i]))
+                    count++;
+            }
+            Console.WriteLine(count + " повторяющихся слова");
+            for (int i = 0; i < temp.Count; i++)
+            {
+                    if (str2.Contains(temp[i]))
+                    Console.Write(temp[i] + ' ');
+            }
+            
+        }
+    }
+}
